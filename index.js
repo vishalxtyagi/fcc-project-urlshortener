@@ -45,7 +45,10 @@ app.post('/api/shorturl', function(req, res) {
   try {
     var url = new URL(req.body.url);
     dns.lookup(url.host, (err, address)=>{
-      if(err) console.log(err);
+      if(err) {
+        res.json({ error: 'invalid url' });
+        return;
+      }
   
       if (fs.existsSync(filename)) {
         var array = fs.readFileSync(filename).toString().split("\n");
